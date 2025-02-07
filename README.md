@@ -36,3 +36,7 @@ CORS Middleware → Allows frontend-backend communication
 
 🎯 Conclusion
 This project demonstrates how to build a dynamic stock visualization tool using React, Redux, and Chart.js. It provides real-time updates, smooth user experience, and scalable architecture for integrating real-world stock APIs.
+
+command for frontend , start  the react app
+=> cd frontend
+=> npm start
