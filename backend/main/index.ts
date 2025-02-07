@@ -1,31 +1,49 @@
-import { Router } from 'express';
-import { getAllStockMeta, getStocks, pollStock } from './service';
+import { Router, Request, Response } from "express";
+import { getAllStockMeta, pollStock } from "./service";
 
-const router: Router = Router();
+export const router: Router = Router();
 
-router.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the alloan.ai API!' });
+router.get("/", (req: Request, res: Response): void => {
+  res.json({ message: "Welcome to the alloan.ai API!" });
 });
 
-router.get('/stocks', (req, res) => {
-  const response = getAllStockMeta();
-  res.json(response);
-});
-
-router.post('/stocks/:id', (req, res) => {
-  const id = req.params.id;
-  const body = req.body;
-  console.log(body);
-  if (!body.duration) {
-    res.status(400).json({ message: 'Duration is required' });
+router.get("/stocks", (req: Request, res: Response): void => {
+  try {
+    const response = getAllStockMeta();
+    res.json(response);
+  } catch (error) {
+    console.error("Error fetching stocks:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-  const reqBody = {
-    id: id,
-    duration: (body.duration).toLowerCase(),
-  }
-  const response = pollStock(reqBody);
-  res.json(response);
 });
 
+router.post("/stocks/:id", (req: Request, res: Response): void => {
+  try {
+    const id = req.params.id;
+    const { duration } = req.body;
 
-export default router;
+    console.log(`🔹 Received request: Stock ID=${id}, Duration=${duration}`);
+
+    if (!duration) {
+      console.error("❌ Error: Duration is missing");
+      res.status(400).json({ message: "Duration is required" });
+      return;
+    }
+
+    const reqBody = {
+      id,
+      duration: typeof duration === "string" ? duration.toLowerCase() : duration,
+    };
+
+    console.log("🔹 Processing request:", reqBody);
+
+    const response = pollStock(reqBody);
+
+    console.log("✅ Backend Response:", response); 
+
+    res.json(response);
+  } catch (error) {
+    console.error("❌ Server Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});

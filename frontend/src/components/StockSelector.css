@@ -1,0 +1,15 @@
+/* StockSelector Component Styling */
+.stock-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  
+  .MuiFormControl-root {
+    width: 100%;
+    max-width: 400px;
+  }
+  

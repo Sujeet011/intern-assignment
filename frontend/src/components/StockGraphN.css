@@ -1,0 +1,14 @@
+/* StockGraph Component Styling */
+.graph-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .chart-container {
+    width: 90%;
+    max-width: 800px;
+    height: 200px;
+  }
+  
